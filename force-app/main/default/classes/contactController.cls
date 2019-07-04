@@ -7,7 +7,8 @@ public with sharing class contactController {
       integer count= database.countQuery('select count() from contact'); 
       System.debug(count);
       String key = '%' + searchKey + '%';
-      List<contact> contacts = [SELECT Id,Name,Email,FirstName,LastName,Title, Approval__C FROM contact limit 10];
+      List<contact> contacts = [SELECT Id,Name,Email,FirstName,LastName,Title, Approval__C,LastModifiedDate FROM contact limit 10];
+      system.debug('contacts'+contacts);
         return contacts;
       
 
