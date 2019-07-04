@@ -6,7 +6,7 @@ import Accept from "@salesforce/apex/contactController.Accept";
 import getCount from "@salesforce/apex/contactController.getCount";
 import getContactList from "@salesforce/apex/contactController.getContactList";
 const PAGE_SIZE = 10;
-const DELAY = 300;
+
 
 export default class LwcAssignment extends LightningElement {
   @api error;
@@ -109,23 +109,24 @@ export default class LwcAssignment extends LightningElement {
       });
   }
 
-  /*handleKeyChange(event) {
+  handleKeyChange(event) {
     if (this.searchKey !== event.target.value) {
+      const searchKey = event.target.value;
       this.isSearchChangeExecuted = false;
-      this.searchKey = event.target.value;
+      this.searchKey = searchKey;
       this.currentpage = 1;
     }
-  }*/
+  }
 
 
-  handleKeyChange(event) {
+  /*handleKeyChange(event) {
     window.clearTimeout(this.delayTimeout);
     const searchKey = event.target.value;
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     this.delayTimeout = setTimeout(() => {
         this.searchKey = searchKey;
     }, DELAY);
-  }
+  }*/
 
   renderedCallback() {
     // This line added to avoid duplicate/multiple executions of this code.
