@@ -13,6 +13,10 @@
                     <th class="slds-text-align_center" data-scope="col" title="Email">
                         EMAIL
                     </th>
+                    <th class="sldsd-text-align_center" data-scope="col" title="Update Date">
+                        MODIFIED DATE 
+
+                    </th>
                     <th class="slds-text-align_center" data-scope="col" title="Action" align="center">
                         ACTION
                     </th>
@@ -34,13 +38,19 @@
                                 {contact.Email}
                             </div>
                         </th>
+                        <th class="slds-text-align_center" data-scope="col" title="Modified Date">
+                            <div class="slds-truncate" title={contact.Id}>
+                                {contact.LastCURequestDate}
+                            </div>
+
+                        </th>
                         <th data-label="Action" data-scope="row">
                             <div class="slds-truncate slds-text-align_center" title={contact.Id}>
                                 <lightning-button variant="brand" data-key={contact.Id} label="Accept"
                                     value={contact.Id} onclick={approvalMethod} class="slds-m-left_x-small"
                                     disabled={buttonValue}></lightning-button>
                                 <lightning-button variant="brand" data-key={contact.Id} label="Reject"
-                                    value={contact.Id} onclick={openModal} class="slds-m-left_x-small">
+                                    value={contact.Id} onclick={openModal} class="slds-m-left_x-small" disabled={buttonValue}>
                                 </lightning-button>
                             </div>
                         </th>

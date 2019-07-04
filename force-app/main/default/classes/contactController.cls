@@ -4,7 +4,7 @@ public with sharing class contactController {
 
    @AuraEnabled(cacheable=true)
     public static List<Contact> getContact(String searchKey){
-      integer count= database.countQuery('select count() from account'); 
+      integer count= database.countQuery('select count() from contact'); 
       System.debug(count);
       String key = '%' + searchKey + '%';
       List<contact> contacts = [SELECT Id,Name,Email,FirstName,LastName,Title, Approval__C FROM contact limit 10];

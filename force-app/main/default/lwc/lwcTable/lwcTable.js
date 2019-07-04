@@ -42,7 +42,7 @@ export default class LwcAssignment extends LightningElement {
     this.bShowModal = false;
   }
   saveMethod() {
-    this.buttonValue = false;
+    this.buttonValue = true;
     /*eslint-disable no-console */
     console.log("value of input " + this.buttonValue);
 
