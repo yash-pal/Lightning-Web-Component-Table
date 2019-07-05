@@ -2,7 +2,7 @@
     <lightning-card title="Leave Requests" icon-name="action:submit_for_approval">
         <div class="slds-m-around_medium">
             <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search"
-            value={searchKey}></lightning-input>
+                value={searchKey}></lightning-input>
         </div>
         <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-text-align_centers">
             <thead>
@@ -14,7 +14,7 @@
                         EMAIL
                     </th>
                     <th class="sldsd-text-align_center slds-align_absolute-center" data-scope="col" title="Update Date">
-                        MODIFIED DATE 
+                        MODIFIED DATE
 
                     </th>
                     <th class="slds-text-align_center" data-scope="col" title="Action" align="center">
@@ -28,9 +28,9 @@
                     <tr class="slds-line-height_reset" key={contact.Id}>
                         <th class="slds-text-align_center" data-scope="col" title="Name " aria-label="Name">
                             <div class="slds-truncate" title={contact.Id}>
-                                <!-- <div title={contact.Id} >{contact.Name}</div>-->
+                                <!-- <div title={contact.Id}  onclick={handleContactView} >{contact.Name}</div>-->
                                 <lightning-formatted-url title={contact.Id} value={contact.Name} label={contact.Name}
-                                    target="_parent">{contact.name}</lightning-formatted-url>
+                                    target="_blank" onclick={handleContactView}>{contact.name}</lightning-formatted-url>
                             </div>
                         </th>
                         <th class="slds-text-align_center" data-scope="col" title="Email">
@@ -40,8 +40,10 @@
                         </th>
                         <th class="slds-text-align_center" data-scope="col" title="Modified Date">
                             <div class="slds-truncate slds-align_absolute-center" title={contact.Id}>
-                                {contact.LastModifiedDate}
-                            </div> 
+                                <lightning-formatted-date-time value={contact.LastModifiedDate}>
+                                    {contact.LastModifiedDate}
+                                </lightning-formatted-date-time>
+                            </div>
 
                         </th>
                         <th data-label="Action" data-scope="row">
@@ -50,7 +52,8 @@
                                     value={contact.Id} onclick={approvalMethod} class="slds-m-left_x-small"
                                     disabled={buttonValue}></lightning-button>
                                 <lightning-button variant="brand" data-key={contact.Id} label="Reject"
-                                    value={contact.Id} onclick={openModal} class="slds-m-left_x-small" disabled={buttonValue}>
+                                    value={contact.Id} onclick={openModal} class="slds-m-left_x-small"
+                                    disabled={buttonValue}>
                                 </lightning-button>
                             </div>
                         </th>

@@ -5,10 +5,11 @@ import saveNote from "@salesforce/apex/contactController.saveNote";
 import Accept from "@salesforce/apex/contactController.Accept";
 import getCount from "@salesforce/apex/contactController.getCount";
 import getContactList from "@salesforce/apex/contactController.getContactList";
+import { NavigationMixin } from 'lightning/navigation';
 const PAGE_SIZE = 10;
 
 
-export default class LwcAssignment extends LightningElement {
+export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api error;
   @api bShowModal = false;
   @api openmodal;
@@ -84,8 +85,13 @@ export default class LwcAssignment extends LightningElement {
 
   approvalMethod(event) {
     this.recordId = event.target.value;
+    if(this.recordId.length === 0)
+    {
+      return ;
+    }
     /*eslint-disable no-console */
     console.log("this.recordId " + this.recordId + "Hello World");
+    console.log("this.contact length" + this.contacts);
 
     this.result = this.buttonValue;
     this.buttonValue = true;
@@ -117,6 +123,18 @@ export default class LwcAssignment extends LightningElement {
       this.currentpage = 1;
     }
   }
+
+  handleContactView(event) {
+    // Navigate to contact record page
+    this[NavigationMixin.Navigate]({
+        type: 'standard__recordPage',
+        attributes: {
+            recordId: event.target.value,
+            objectApiName: 'Contact',
+            actionName: 'view',
+        },
+    });
+}
 
 
   /*handleKeyChange(event) {
