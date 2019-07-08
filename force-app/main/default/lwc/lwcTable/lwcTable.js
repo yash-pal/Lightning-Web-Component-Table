@@ -42,7 +42,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // to close modal window set 'bShowModal' track value as false
     this.bShowModal = false;
   }
-  saveMethod() {
+  saveMethod(){
     this.buttonValue = true;
     /*eslint-disable no-console */
     console.log("value of input " + this.buttonValue);
@@ -92,8 +92,8 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     /*eslint-disable no-console */
     console.log("this.recordId " + this.recordId + "Hello World");
     console.log("this.contact length" + this.contacts);
-
-    this.result = this.buttonValue;
+    //this.result = this.recordId;
+    this.recordId = this.buttonValue;
     this.buttonValue = true;
 
     Accept({ contactId: this.recordId })
@@ -130,6 +130,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
         type: 'standard__recordPage',
         attributes: {
             recordId: event.target.value,
+            url:"https://zakuda001-dev-ed.lightning.force.com/lightning/r/Contact/ " + this.recordId,
             objectApiName: 'Contact',
             actionName: 'view',
         },
