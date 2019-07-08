@@ -5,7 +5,7 @@ public with sharing class contactController {
    @AuraEnabled(cacheable=true)
     public static List<Contact> getContact(String searchKey){
       String key = '%' + searchKey + '%';
-      List<contact> contacts = [SELECT Id,Name,Email,FirstName,LastName,Title, Approval__C,LastModifiedDate,(select CreatedDate from Histories) FROM contact limit 10];
+      List<contact> contacts = [SELECT Id,Name,Email,FirstName,LastName,Title, Approval__C,LastModifiedDate,(SELECT ContactId, Contact.Name, Field, NewValue, OldValue FROM Histories) FROM contact limit 10];
       system.debug('contacts'+contacts);
         return contacts;
       
