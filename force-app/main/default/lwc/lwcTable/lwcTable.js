@@ -22,10 +22,18 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api result;
   @api buttonValue = false;
   @track searchKey = '';
+  @api contacts=[];
 
 
   @wire(getContact,{searchKey: '$searchKey'})
-  contacts;
+  wiredContacts({ error, data }) {
+    if (data) {
+        this.contacts = data;
+    } else if (error) {
+        this.error = error;
+    }
+  }
+  
 
   openModal(event) {
     this.recordId = event.target.value;
@@ -85,16 +93,19 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
 
   approvalMethod(event) {
     this.recordId = event.target.value;
-    if(this.recordId.length === 0)
-    {
-      return ;
-    }
     /*eslint-disable no-console */
     console.log("this.recordId " + this.recordId + "Hello World");
-    console.log("this.contact length" + this.contacts);
+    console.log("length " + this.contacts.length);
     //this.result = this.recordId;
-    this.recordId = this.buttonValue;
-    this.buttonValue = true;
+    for(let i=0;i<this.contacts.length;i++){
+         /*eslint-disable no-console */
+    console.log("contact id" + this.contacts[0].Id);
+    if(this.contacts[i].Id===this.recordId){
+      this.buttonValue=true;
+    }
+    }
+   /* this.recordId = this.buttonValue;
+    this.buttonValue = true;*/
 
     Accept({ contactId: this.recordId })
       .then(() => {

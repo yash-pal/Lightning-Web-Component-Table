@@ -23,14 +23,15 @@
                 </tr>
             </thead>
 
-            <template if:true={contacts.data} aria-readonly="false">
-                <template for:each={contacts.data} for:item="contact">
+            <template if:true={contacts} aria-readonly="false">
+                <template for:each={contacts} for:item="contact">
                     <tr class="slds-line-height_reset" key={contact.Id}>
                         <th class="slds-text-align_center" data-scope="col" title="Name " aria-label="Name">
                             <div class="slds-truncate" title={contact.Id}>
-                                <!---<div title={contact.Id}  onclick={handleContactView} >{contact.Name}</div>-->
-                              <lightning-formatted-url title={contact.Id}  id={contact.Id} value="https://zakuda001-dev-ed.lightning.force.com/lightning/r/Contact/id/view"  label={contact.Name}
-                                    target="_blank" onclick={handleContactView}>{contact.name}</lightning-formatted-url>
+                                <a>
+                                    <lightning-button variant="base" label={contact.Name} title={contact.Name}
+                                        value={contact.Id} onclick={handleContactView}>{contact.Name}</lightning-button>
+                                </a>
                             </div>
                         </th>
                         <th class="slds-text-align_center" data-scope="col" title="Email">
@@ -41,11 +42,12 @@
                         <th class="slds-text-align_center" data-scope="col" title="Modified Date">
                             <div class="slds-truncate slds-align_absolute-center" title={contact.Id}>
                                 <lightning-formatted-date-time value={contact.LastModifiedDate}>
-                                    {contact.LastModifiedDate}
+                                    {contact.Histories}
                                 </lightning-formatted-date-time>
                             </div>
 
                         </th>
+
                         <th data-label="Action" data-scope="row">
                             <div class="slds-truncate slds-text-align_center" title={contact.Id}>
                                 <lightning-button variant="brand" data-key={contact.Id} label="Accept"
@@ -57,7 +59,9 @@
                                 </lightning-button>
                             </div>
                         </th>
+
                     </tr>
+
                 </template>
                 <!-- Start of modal window-->
                 <template if:true={bShowModal}>
@@ -87,7 +91,8 @@
                                 <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
                                 </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <lightning-button label="Save" variant="brand" onclick={saveMethod}
-                                    disabled={buttonValue}></lightning-button>
+                                    disabled={buttonValue}>
+                                </lightning-button>
                             </footer>
                         </div>
                     </section>
