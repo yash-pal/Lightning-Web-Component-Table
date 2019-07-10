@@ -34,6 +34,8 @@ public with sharing class contactController {
 
     }
 
+  // Count Number of Records 
+
     @AuraEnabled
     public static Integer getCount(String searchString) {  
      String query = 'select count() from Contact ';  

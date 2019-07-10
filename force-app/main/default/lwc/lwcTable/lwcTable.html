@@ -29,9 +29,9 @@
                         <th class="slds-text-align_center" data-scope="col" title="Name " aria-label="Name">
                             <div class="slds-truncate" title={contact.Id}>
                                 <a>
-                                   <lightning-button variant="base" label={contact.Name} title={contact.Name}
+                                    <lightning-button variant="base" label={contact.Name} title={contact.Name}
                                         value={contact.Id} onclick={handleContactView}></lightning-button>
-                                   
+
                                 </a>
                             </div>
                         </th>
@@ -107,25 +107,25 @@
             <b> {totalpages}</b>
         </p>
         <template if:true={contacts}>
-        <lightning-layout>
-            <lightning-layout-item>
-                <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
-                    disabled={showFirstButton}></lightning-button>
-            </lightning-layout-item>
-            <lightning-layout-item>
-                <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={handlePrevious}
-                    disabled={showFirstButton}></lightning-button>
-            </lightning-layout-item>
-            <lightning-layout-item flexibility="grow"></lightning-layout-item>
-            <lightning-layout-item>
-                <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
-                    onclick={handleNext} disabled={showLastButton}></lightning-button>
-            </lightning-layout-item>
-            <lightning-layout-item>
-                <lightning-button label="Last" icon-name="utility:chevronright" icon-position="right"
-                    onclick={handleLast} disabled={showLastButton}></lightning-button>
-            </lightning-layout-item>
-        </lightning-layout>
-    </template>
+            <lightning-layout>
+                <lightning-layout-item>
+                    <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
+                        disabled={showFirstButton}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={handlePrevious}
+                        disabled={showFirstButton}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="grow"></lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
+                        onclick={handleNext} disabled={showLastButton}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-button label="Last" icon-name="utility:chevronright" icon-position="right"
+                        onclick={handleLast} disabled={showLastButton}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
     </lightning-card>
 </template>
