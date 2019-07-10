@@ -6,6 +6,8 @@ import Accept from "@salesforce/apex/contactController.Accept";
 import getCount from "@salesforce/apex/contactController.getCount";
 import getContactList from "@salesforce/apex/contactController.getContactList";
 import { NavigationMixin } from 'lightning/navigation';
+
+
 const PAGE_SIZE = 10;
 
 
@@ -50,6 +52,12 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // to close modal window set 'bShowModal' track value as false
     this.bShowModal = false;
   }
+
+
+  handleSearchKeyChange(searchKey) {
+    this.searchKey = searchKey;
+  }
+
   saveMethod(){
     this.buttonValue = true;
     /*eslint-disable no-console */

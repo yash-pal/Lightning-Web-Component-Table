@@ -106,6 +106,7 @@
             Total records: <b>{totalrecords} </b> Page <b>{currentpage}</b> of
             <b> {totalpages}</b>
         </p>
+        <template if:true={contacts}>
         <lightning-layout>
             <lightning-layout-item>
                 <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
@@ -125,5 +126,6 @@
                     onclick={handleLast} disabled={showLastButton}></lightning-button>
             </lightning-layout-item>
         </lightning-layout>
+    </template>
     </lightning-card>
 </template>
