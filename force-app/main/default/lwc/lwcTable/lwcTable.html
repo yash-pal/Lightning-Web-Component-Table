@@ -33,8 +33,9 @@
                             <th class="slds-text-align_center" data-scope="col" title="Name " aria-label="Name">
                                 <div class="slds-truncate" title={wrapper.con.Id}>
                                     <a>
-                                        <lightning-button variant="base" label={wrapper.con.Name} title={wrapper.con.Name}
-                                            value={wrapper.con.Id} onclick={handleContactView}></lightning-button>
+                                        <lightning-button variant="base" label={wrapper.con.Name}
+                                            title={wrapper.con.Name} value={wrapper.con.Id} onclick={handleContactView}>
+                                        </lightning-button>
 
                                     </a>
                                 </div>
@@ -55,18 +56,20 @@
                             <template if:true={showSpinner}>
                                 <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
                             </template>
-                          <template if:true={wrappers.data}>
-                            <th data-label="Action" data-scope="row" >
-                                <div class="slds-truncate slds-text-align_center "   title={wrapper.con.Id}>
-                                    <lightning-button variant="brand" data-key={wrapper.con.Id} data-id="toastModel" label="Accept"
-                                        value={wrapper.con.Id} onclick={approvalMethod} class="slds-m-left_x-small"
-                                        id={wrapper.con.Id} disabled={wrapper.selected}></lightning-button>
-                                    <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
-                                        value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small" >
-                                    </lightning-button>
-                                </div>
-                            </th>
-                          </template>
+                            <template if:true={wrappers.data}>
+                                <th data-label="Action" data-scope="row">
+                                    <div class="slds-truncate slds-text-align_center " title={wrapper.con.Id}>
+                                        <lightning-button variant="brand" data-key={wrapper.con.Id} data-id="toastModel"
+                                            label="Accept" value={wrapper.con.Id} onclick={approvalMethod}
+                                            class="slds-m-left_x-small" id={wrapper.con.Id} disabled={wrapper.selected}>
+                                        </lightning-button>
+                                        <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
+                                            value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small"
+                                            disabled={wrapper.selected}>
+                                        </lightning-button>
+                                    </div>
+                                </th>
+                            </template>
                         </tr>
                     </template>
 
@@ -96,15 +99,12 @@
                                     value={databinding} message-when-value-missing="Enter a reason" required="">
                                 </lightning-textarea>
                                 <!-- modal footer start-->
-                                <footer class="slds-modal__footer">
-                                    <template if:true={wrappers.data}>
-                                    <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
-                                    </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <lightning-button label="Save" variant="brand" onclick={saveMethod}
-                                        disabled={wrapper.selected}>
-                                    </lightning-button>
-                                </template>
-                                </footer>
+                                    <footer class="slds-modal__footer">
+                                        <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
+                                        </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <lightning-button label="Save" variant="brand" onclick={saveMethod}>
+                                        </lightning-button>
+                                    </footer>
                             </div>
                         </section>
                         <div class="slds-backdrop slds-backdrop_open"></div>

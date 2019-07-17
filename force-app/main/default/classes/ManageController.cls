@@ -16,5 +16,13 @@ public with sharing class ManageController {
        query += ' where name like \'%' + searchString + '%\' ';  
      }  
      return Database.countQuery(query);  
-   }  
+   } 
+
+
+  @AuraEnabled
+  public static List<contact> getContacts(String searchKey){
+    String key = '%' + searchKey + '%';
+    return [Select Id,Name,UpdateField__c,Email FROM contact WHERE Name LIKE :key limit 10]; 
+    
+  } 
 }
