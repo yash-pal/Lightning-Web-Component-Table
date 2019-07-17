@@ -1,18 +1,16 @@
 import { LightningElement, wire, track} from 'lwc';
-import getContact from '@salesforce/apex/contactController.getContact';
+import getContacts from '@salesforce/apex/ManageController.getContacts';
 import saveNote from '@salesforce/apex/contactController.saveNote';
 import { updateRecord } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import FIRSTNAME_FIELD from '@salesforce/schema/Contact.FirstName';
-import LASTNAME_FIELD from '@salesforce/schema/Contact.LastName';
+import NAME_FIELD from '@salesforce/schema/Contact.Name';
 import ID_FIELD from '@salesforce/schema/Contact.Id';
 import Accept from '@salesforce/apex/contactController.Accept';
 
 
 const cols = [
-    { label: 'First Name', fieldName: 'FirstName', editable: true,type:'URL' },
-    { label: 'Last Name', fieldName: 'LastName', editable: true },
+    { label: 'Name', fieldName: 'Name', editable: true,type:'URL' },
     { label: 'Title', fieldName: 'Title' },
     { label: 'Accept', fieldName: 'Accept',
      type: "button",typeAttributes:{
@@ -20,6 +18,7 @@ const cols = [
         name:'Accept',
         title:'Accept',
         value:'accept',
+        disabled:{fieldName:'isActive'},
         iconPosition:'left',
 
      }},
@@ -29,6 +28,7 @@ const cols = [
         name:'Reject',
         title:'Reject',
         value:'Reject',
+        disabled:{fieldName:'isActive'},
         iconPosition:'left',
     
     }},
@@ -46,7 +46,7 @@ export default class DatatableUpdateExample extends LightningElement {
     variant = 'Success';
     
 
-    @wire(getContact)
+    @wire(getContacts)
     contact;
     /*@wire(saveNote)
     contact;*/
@@ -55,9 +55,7 @@ export default class DatatableUpdateExample extends LightningElement {
 
         const fields = {};
         fields[ID_FIELD.fieldApiName] = event.detail.draftValues[0].Id;
-        fields[FIRSTNAME_FIELD.fieldApiName] = event.detail.draftValues[0].FirstName;
-        fields[LASTNAME_FIELD.fieldApiName] = event.detail.draftValues[0].LastName;
-        
+        fields[NAME_FIELD.fieldApiName] = event.detail.draftValues[0].Name;
         const recordInput = {fields};
 
         updateRecord(recordInput)

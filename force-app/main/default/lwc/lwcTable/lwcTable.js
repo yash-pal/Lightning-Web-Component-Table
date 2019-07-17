@@ -1,11 +1,13 @@
 import { LightningElement, wire, api, track } from "lwc";
-import getContact from "@salesforce/apex/contactController.getContact";
+//import getContact from "@salesforce/apex/contactController.getContact";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import saveNote from "@salesforce/apex/contactController.saveNote";
 import Accept from "@salesforce/apex/contactController.Accept";
 import getCount from "@salesforce/apex/contactController.getCount";
 import getContactList from "@salesforce/apex/contactController.getContactList";
 import { NavigationMixin } from 'lightning/navigation';
+import { refreshApex } from '@salesforce/apex';
+import contactWrapper from "@salesforce/apex/contactController.contactWrapper";
 
 
 const PAGE_SIZE = 10;
@@ -25,17 +27,16 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api buttonValue = false;
   @track searchKey = '';
   @api contacts=[];
+  @api button;
+ 
+  @api showSpinner = false;
 
+  @wire(contactWrapper,{searchKey: '$searchKey'})
+  wrappers;
 
-  @wire(getContact,{searchKey: '$searchKey'})
-  wiredContacts({ error, data }) {
-    if (data) {
-        this.contacts = data;
-    } else if (error) {
-        this.error = error;
-    }
-  }
   
+  /*eslint-disable no-console */
+   
 
   openModal(event) {
     this.recordId = event.target.value;
@@ -54,30 +55,25 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   }
 
 
-  handleSearchKeyChange(searchKey) {
-    this.searchKey = searchKey;
-  }
-
   saveMethod(){
-    this.buttonValue = true;
     /*eslint-disable no-console */
-    console.log("value of input " + this.buttonValue);
+
 
     const result = this.template.querySelector(".inputText");
     this.result = result.value;
 
+
     /*eslint-disable no-console */
-    console.log("value of input " + this.result);
+    console.log("value of input " + this.result  );
 
     /*eslint-disable no-console */
     console.log("this.recordId " + this.recordId);
     saveNote({ contactId: this.recordId, inputText: this.result })
       .then(() => {
-        if (!this.recordId) {
-          this.recordId.reportValidity();
-          this.disabled = true;
+        if(this.contacts.Id===this.recordId){
+          this.buttonValue=true;
         } else {
-          this.disabled = false;
+          this.buttonValue = false;
         }
         const evt = new ShowToastEvent({
           title: "Record Updated",
@@ -87,6 +83,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
         });
         this.dispatchEvent(evt);
         this.closeModal();
+        return refreshApex(this.Accept);
       })
       .catch(error => {
         this.dispatchEvent(
@@ -99,21 +96,10 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
       });
   }
 
+ 
   approvalMethod(event) {
+
     this.recordId = event.target.value;
-    /*eslint-disable no-console */
-    console.log("this.recordId " + this.recordId + "Hello World");
-    console.log("length " + this.contacts.length);
-    //this.result = this.recordId;
-    for(let i=0;i<this.contacts.length;i++){
-         /*eslint-disable no-console */
-    console.log("contact id" + this.contacts[0].Id);
-    if(this.contacts[i].Id===this.recordId){
-      this.buttonValue=true;
-    }
-    }
-   /* this.recordId = this.buttonValue;
-    this.buttonValue = true;*/
 
     Accept({ contactId: this.recordId })
       .then(() => {
@@ -122,6 +108,9 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
           variant: "Success"
         });
         this.dispatchEvent(evnt);
+        return refreshApex(this.contacts);
+        
+
       })
       .catch(error => {
         this.dispatchEvent(
@@ -132,12 +121,18 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
           })
         );
       });
+      // eslint-disable-next-line @lwc/lwc/no-async-operation
+      setTimeout(() => {
+        this.ready = true;
+        location.reload(true);
+    }, 3000);
+      
   }
 
   handleKeyChange(event) {
     if (this.searchKey !== event.target.value) {
       const searchKey = event.target.value;
-      this.isSearchChangeExecuted = false;
+      //this.isSearchChangeExecuted = false;
       this.searchKey = searchKey;
       this.currentpage = 1;
     }
@@ -155,16 +150,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
         },
     });
 }
-
-
-  /*handleKeyChange(event) {
-    window.clearTimeout(this.delayTimeout);
-    const searchKey = event.target.value;
-    // eslint-disable-next-line @lwc/lwc/no-async-operation
-    this.delayTimeout = setTimeout(() => {
-        this.searchKey = searchKey;
-    }, DELAY);
-  }*/
 
   renderedCallback() {
     // This line added to avoid duplicate/multiple executions of this code.
@@ -239,11 +224,13 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     if (this.page > 1) {
       this.page = this.page - 1;
       this.dispatchEvent(new CustomEvent("previous"));
+      
     }
   }
   handleNext() {
     if (this.page < this.totalPages) this.page = this.page + 1;
     this.dispatchEvent(new CustomEvent("next"));
+    console.log('page' + this.page);
   }
   handleFirst() {
     this.page = 1;

@@ -1,131 +1,142 @@
 <template>
     <lightning-card title="Leave Requests" icon-name="action:submit_for_approval">
-        <div class="slds-m-around_medium">
-            <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search"
-                value={searchKey}></lightning-input>
-        </div>
-        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-text-align_centers">
-            <thead>
-                <tr class="slds-text-align_center">
-                    <th class="slds-text-align_center" data-scope="col" title="Name " aria-label=" Name">
-                        NAME
-                    </th>
-                    <th class="slds-text-align_center" data-scope="col" title="Email">
-                        EMAIL
-                    </th>
-                    <th class="sldsd-text-align_center slds-align_absolute-center" data-scope="col" title="Update Date">
-                        MODIFIED DATE
+        <lightning-layout-item size=12>
 
-                    </th>
-                    <th class="slds-text-align_center" data-scope="col" title="Action" align="center">
-                        ACTION
-                    </th>
-                </tr>
-            </thead>
+            <div class="slds-m-around_medium">
+                <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search"
+                    value={searchKey}></lightning-input>
+            </div>
 
-            <template if:true={contacts} aria-readonly="false">
-                <template for:each={contacts} for:item="contact">
-                    <tr class="slds-line-height_reset" key={contact.Id}>
-                        <th class="slds-text-align_center" data-scope="col" title="Name " aria-label="Name">
-                            <div class="slds-truncate" title={contact.Id}>
-                                <a>
-                                    <lightning-button variant="base" label={contact.Name} title={contact.Name}
-                                        value={contact.Id} onclick={handleContactView}></lightning-button>
-
-                                </a>
-                            </div>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-text-align_centers">
+                <thead>
+                    <tr class="slds-text-align_center">
+                        <th class="slds-text-align_center" data-scope="col" title="Name " aria-label=" Name">
+                            NAME
                         </th>
                         <th class="slds-text-align_center" data-scope="col" title="Email">
-                            <div class="slds-truncate" title={contact.Id}>
-                                {contact.Email}
-                            </div>
+                            EMAIL
                         </th>
-                        <th class="slds-text-align_center" data-scope="col" title="Modified Date">
-                            <div class="slds-truncate slds-align_absolute-center" title={contact.Id}>
-                                <lightning-formatted-date-time value={contact.LastModifiedDate}>
-                                    {contact.Histories}
-                                </lightning-formatted-date-time>
-                            </div>
+                        <th class="sldsd-text-align_center slds-align_absolute-center" data-scope="col"
+                            title="Update Date">
+                            MODIFIED DATE
 
                         </th>
-
-                        <th data-label="Action" data-scope="row">
-                            <div class="slds-truncate slds-text-align_center" title={contact.Id}>
-                                <lightning-button variant="brand" data-key={contact.Id} label="Accept"
-                                    value={contact.Id} onclick={approvalMethod} class="slds-m-left_x-small"
-                                    disabled={buttonValue}></lightning-button>
-                                <lightning-button variant="brand" data-key={contact.Id} label="Reject"
-                                    value={contact.Id} onclick={openModal} class="slds-m-left_x-small"
-                                    disabled={buttonValue}>
-                                </lightning-button>
-                            </div>
+                        <th class="slds-text-align_center" data-scope="col" title="Action" align="center">
+                            ACTION
                         </th>
-
                     </tr>
+                </thead>
 
-                </template>
-                <!-- Start of modal window-->
-                <template if:true={bShowModal}>
-                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-                        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-                        <div class="slds-modal__container">
-                            <!-- modal header start -->
-                            <header class="slds-modal__header">
-                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                                    title="Save" onclick={openModal}>
-                                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
-                                        size="small" onclick={closeModal}></lightning-icon>
-                                    <span class="slds-assistive-text">Save</span>
-                                </button>
-                                <div>
-                                    <lightning-card class="slds-align_absolute-center" title="REASON FOR REJECTION "
-                                        icon-name="action:record" style="color:green;font-weight: bold">
-                                    </lightning-card>
+                <template if:true={wrappers.data} aria-readonly="false">
+                    <template for:each={wrappers.data} for:item="wrapper">
+                        <tr class="slds-line-height_reset" key={wrapper.con.Id}>
+                            <th class="slds-text-align_center" data-scope="col" title="Name " aria-label="Name">
+                                <div class="slds-truncate" title={wrapper.con.Id}>
+                                    <a>
+                                        <lightning-button variant="base" label={wrapper.con.Name} title={wrapper.con.Name}
+                                            value={wrapper.con.Id} onclick={handleContactView}></lightning-button>
+
+                                    </a>
                                 </div>
-                            </header>
+                            </th>
+                            <th class="slds-text-align_center" data-scope="col" title="Email">
+                                <div class="slds-truncate" title={wrapper.con.Id}>
+                                    {wrapper.con.Email}
+                                </div>
+                            </th>
+                            <th class="slds-text-align_center" data-scope="col" title="Modified Date">
+                                <div class="slds-truncate slds-align_absolute-center" title={wrapper.con.Id}>
+                                    <lightning-formatted-date-time value={wrapper.con.LastModifiedDate}>
+                                        {wrapper.con.Histories}
+                                    </lightning-formatted-date-time>
+                                </div>
 
-                            <!-- Text Area-->
-                            <lightning-textarea class="inputText slds-textarea" placeholder="Reason" value={databinding}
-                                message-when-value-missing="Enter a reason" required=""></lightning-textarea>
-                            <!-- modal footer start-->
-                            <footer class="slds-modal__footer">
-                                <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
-                                </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <lightning-button label="Save" variant="brand" onclick={saveMethod}
-                                    disabled={buttonValue}>
-                                </lightning-button>
-                            </footer>
-                        </div>
-                    </section>
-                    <div class="slds-backdrop slds-backdrop_open"></div>
+                            </th>
+                            <template if:true={showSpinner}>
+                                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            </template>
+                          <template if:true={wrappers.data}>
+                            <th data-label="Action" data-scope="row" >
+                                <div class="slds-truncate slds-text-align_center "   title={wrapper.con.Id}>
+                                    <lightning-button variant="brand" data-key={wrapper.con.Id} data-id="toastModel" label="Accept"
+                                        value={wrapper.con.Id} onclick={approvalMethod} class="slds-m-left_x-small"
+                                        id={wrapper.con.Id} disabled={wrapper.selected}></lightning-button>
+                                    <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
+                                        value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small" >
+                                    </lightning-button>
+                                </div>
+                            </th>
+                          </template>
+                        </tr>
+                    </template>
+
+                    <!-- Start of modal window-->
+                    <template if:true={bShowModal}>
+                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                            <div class="slds-modal__container">
+                                <!-- modal header start -->
+                                <header class="slds-modal__header">
+                                    <button
+                                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                        title="Save" onclick={openModal}>
+                                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                                            variant="inverse" size="small" onclick={closeModal}></lightning-icon>
+                                        <span class="slds-assistive-text">Save</span>
+                                    </button>
+                                    <div>
+                                        <lightning-card class="slds-align_absolute-center" title="REASON FOR REJECTION "
+                                            icon-name="action:record" style="color:green;font-weight: bold">
+                                        </lightning-card>
+                                    </div>
+                                </header>
+
+                                <!-- Text Area-->
+                                <lightning-textarea class="inputText slds-textarea" placeholder="Reason"
+                                    value={databinding} message-when-value-missing="Enter a reason" required="">
+                                </lightning-textarea>
+                                <!-- modal footer start-->
+                                <footer class="slds-modal__footer">
+                                    <template if:true={wrappers.data}>
+                                    <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
+                                    </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <lightning-button label="Save" variant="brand" onclick={saveMethod}
+                                        disabled={wrapper.selected}>
+                                    </lightning-button>
+                                </template>
+                                </footer>
+                            </div>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open"></div>
+                    </template>
                 </template>
+                <!-- End of Modal Window  -->
+            </table>
+            <p class="slds-m-vertical_medium content">
+                Total records: <b>{totalrecords} </b> Page <b>{currentpage}</b> of
+                <b> {totalpages}</b>
+            </p>
+            <template if:true={wrappers.data}>
+                <lightning-layout>
+                    <lightning-layout-item>
+                        <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
+                            disabled={showFirstButton}></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={handlePrevious}
+                            disabled={showFirstButton}></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="grow"></lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
+                            onclick={handleNext} disabled={showLastButton}></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-button label="Last" icon-name="utility:chevronright" icon-position="right"
+                            onclick={handleLast} disabled={showLastButton}></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
             </template>
-            <!-- End of Modal Window  -->
-        </table>
-        <p class="slds-m-vertical_medium content">
-            Total records: <b>{totalrecords} </b> Page <b>{currentpage}</b> of
-            <b> {totalpages}</b>
-        </p>
-        <template if:true={contacts}>
-            <lightning-layout>
-                <lightning-layout-item>
-                    <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
-                        disabled={showFirstButton}></lightning-button>
-                </lightning-layout-item>
-                <lightning-layout-item>
-                    <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={handlePrevious}
-                        disabled={showFirstButton}></lightning-button>
-                </lightning-layout-item>
-                <lightning-layout-item flexibility="grow"></lightning-layout-item>
-                <lightning-layout-item>
-                    <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
-                        onclick={handleNext} disabled={showLastButton}></lightning-button>
-                </lightning-layout-item>
-                <lightning-layout-item>
-                    <lightning-button label="Last" icon-name="utility:chevronright" icon-position="right"
-                        onclick={handleLast} disabled={showLastButton}></lightning-button>
-                </lightning-layout-item>
-            </lightning-layout>
-        </template>
+        </lightning-layout-item>
     </lightning-card>
 </template>
