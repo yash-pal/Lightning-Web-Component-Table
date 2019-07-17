@@ -1,6 +1,6 @@
 public with sharing class contactController {
 
-
+  //Retrieve or Show data from the Org 
   @AuraEnabled(cacheable=true)
     public static List<wrappController> contactWrapper(String searchKey){
       List<wrappController> wrapperList = new List<wrappController>();
@@ -15,7 +15,7 @@ public with sharing class contactController {
         return wrapperList;
     }
 
-    //Retrieve or Show data from the Org 
+    
   /* @AuraEnabled(cacheable=true)
     public static List<Contact> getContact(String searchKey){
       String key = '%' + searchKey + '%';
@@ -40,7 +40,7 @@ public with sharing class contactController {
        notes.Title__c = 'Rejection Note';
        notes.Body__c = inputText;
       insert notes;  
-      
+
       update con;
       wrappController obj = new wrappController(false,con);
       return wrapperSave;
