@@ -84,8 +84,4 @@ public with sharing class contactController {
      return cons;
    }  
 
-
-
-
- 
 }
