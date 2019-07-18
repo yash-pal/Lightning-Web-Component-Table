@@ -27,6 +27,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api contacts = [];
   @api button;
 
+
   @api showSpinner = false;
 
   @wire(contactWrapper, { searchKey: "$searchKey" })
@@ -83,6 +84,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setTimeout(() => {
       this.ready = true;
+      this.showSpinner=true;
       location.reload(true);
     }, 3000);
   }
@@ -111,6 +113,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setTimeout(() => {
       this.ready = true;
+      this.showSpinner=true;
       location.reload(true);
     }, 3000);
   }
