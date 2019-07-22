@@ -1,39 +1,32 @@
 import { LightningElement, wire, api, track } from "lwc";
-//import getContact from "@salesforce/apex/contactController.getContact";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import saveNote from "@salesforce/apex/contactController.saveNote";
 import Accept from "@salesforce/apex/contactController.Accept";
-import getCount from "@salesforce/apex/contactController.getCount";
 import getContactList from "@salesforce/apex/contactController.getContactList";
 import { NavigationMixin } from "lightning/navigation";
 import { refreshApex } from "@salesforce/apex";
 import contactWrapper from "@salesforce/apex/contactController.contactWrapper";
-
-const PAGE_SIZE = 10;
 
 export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api error;
   @api bShowModal = false;
   @api openmodal;
   @api recordId;
-  @api ParentId;
-  @track searchKey;
+  @track searchKey = "" ;
   @api currentpage;
-  isSearchChangeExecuted = false;
-  localCurrentPage = null;
   @api result;
   @api buttonValue = false;
-  @track searchKey = "";
   @api contacts = [];
-  @api button;
-
+  
+ 
 
   @api showSpinner = false;
 
   @wire(contactWrapper, { searchKey: "$searchKey" })
   wrappers;
 
-  /*eslint-disable no-console */
+  @wire(getContactList, { pageNumber: "$pageNumber" })
+  contacts;
 
   openModal(event) {
     this.recordId = event.target.value;
@@ -42,6 +35,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // to open modal window set 'bShowModal' tarck value as true
     this.bShowModal = true;
     console.log("this.recordId " + this.recordId);
+    this.buttonValue = true;
   }
 
   closeModal() {
@@ -52,7 +46,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   }
 
   saveMethod() {
-
     const result = this.template.querySelector(".inputText");
     this.result = result.value;
 
@@ -63,6 +56,10 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     console.log("this.recordId " + this.recordId);
     saveNote({ contactId: this.recordId, inputText: this.result })
       .then(() => {
+        if (this.result != null) {
+          this.buttonValue = false;
+        }
+
         const evt = new ShowToastEvent({
           title: "Record Updated",
           variant: "Success",
@@ -84,7 +81,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setTimeout(() => {
       this.ready = true;
-      this.showSpinner=true;
+      this.showSpinner = true;
       location.reload(true);
     }, 3000);
   }
@@ -113,7 +110,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setTimeout(() => {
       this.ready = true;
-      this.showSpinner=true;
+      this.showSpinner = true;
       location.reload(true);
     }, 3000);
   }
@@ -121,7 +118,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   handleKeyChange(event) {
     if (this.searchKey !== event.target.value) {
       const searchKey = event.target.value;
-      //this.isSearchChangeExecuted = false;
       this.searchKey = searchKey;
       this.currentpage = 1;
     }
@@ -142,99 +138,26 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
     });
   }
 
-  renderedCallback() {
-    // This line added to avoid duplicate/multiple executions of this code.
-    if (
-      this.isSearchChangeExecuted &&
-      this.localCurrentPage === this.currentpage
-    ) {
-      return;
+ 
+
+  changeValue() {
+    const result = this.template.querySelector(".inputText");
+    this.result = result.value;
+    if (this.result != null) {
+      this.buttonValue = false;
     }
-    this.isSearchChangeExecuted = true;
-    this.localCurrentPage = this.currentpage;
-    getCount({ searchString: this.searchKey })
-      .then(recordsCount => {
-        this.totalrecords = recordsCount;
-        if (recordsCount !== 0 && !isNaN(recordsCount)) {
-          this.totalpages = Math.ceil(recordsCount / this.pagesize);
-          getContactList({
-            pagenumber: this.currentpage,
-            numberOfRecords: recordsCount,
-            pageSize: this.pagesize,
-            searchString: this.searchKey
-          })
-            .then(accountList => {
-              this.accounts = accountList;
-              this.error = undefined;
-            })
-            .catch(error => {
-              this.error = error;
-              this.accounts = undefined;
-            });
-        } else {
-          this.accounts = [];
-          this.totalpages = 1;
-          this.totalrecords = 0;
-        }
-        const event = new CustomEvent("recordsload", {
-          detail: recordsCount
-        });
-        this.dispatchEvent(event);
-      })
-      .catch(error => {
-        this.error = error;
-        this.totalrecords = undefined;
-      });
+    if (this.result === "" || this.result === undefined) {
+      this.buttonValue = true;
+    }
+
   }
 
-  lastpage = false;
-  firstpage = false;
-  // getter
-  get showFirstButton() {
-    if (this.currentpage === 1) {
-      return true;
-    }
-    return false;
-  }
-  // getter
-  get showLastButton() {
-    if (Math.ceil(this.totalrecords / this.pagesize) === this.currentpage) {
-      return true;
-    }
-    return false;
+  handlePreviousPage() {
+    this.pageNumber = this.pageNumber - 1;
   }
 
-  @api _pagesize = PAGE_SIZE;
-  get pagesize() {
-    return this._pagesize;
-  }
-  set pagesize(value) {
-    this._pagesize = value;
-  }
-  handlePrevious() {
-    if (this.page > 1) {
-      this.page = this.page - 1;
-      this.dispatchEvent(new CustomEvent("previous"));
-    }
-  }
-  handleNext() {
-    if (this.page < this.totalPages) this.page = this.page + 1;
-    this.dispatchEvent(new CustomEvent("next"));
-    console.log("page" + this.page);
-  }
-  handleFirst() {
-    this.page = 1;
-    this.dispatchEvent(new CustomEvent("first"));
-  }
-  handleLast() {
-    this.page = this.totalPages;
-    this.dispatchEvent(new CustomEvent("last"));
-  }
-  handleRecordsLoad(event) {
-    this.totalrecords = event.detail;
-    this.totalPages = Math.ceil(this.totalrecords / this.pagesize);
-  }
-  handlePageChange(event) {
-    this.page = event.detail;
+  handleNextPage() {
+    this.pageNumber = this.pageNumber - 1;
+    console.log("page size " + this.pageNumber);
   }
 }

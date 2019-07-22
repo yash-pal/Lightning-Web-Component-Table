@@ -96,15 +96,15 @@
 
                                 <!-- Text Area-->
                                 <lightning-textarea class="inputText slds-textarea" placeholder="Reason"
-                                    value={databinding} message-when-value-missing="Enter a reason" required="">
+                                    value={databinding} message-when-value-missing="Enter a reason"  onchange={changeValue} required >
                                 </lightning-textarea>
                                 <!-- modal footer start-->
-                                    <footer class="slds-modal__footer">
-                                        <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
-                                        </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <lightning-button label="Save" variant="brand" onclick={saveMethod}>
-                                        </lightning-button>
-                                    </footer>
+                                <footer class="slds-modal__footer">
+                                    <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
+                                    </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <lightning-button label="Save" variant="brand" onclick={saveMethod} disabled={buttonValue}>
+                                    </lightning-button>
+                                </footer>
                             </div>
                         </section>
                         <div class="slds-backdrop slds-backdrop_open"></div>
@@ -112,13 +112,13 @@
                 </template>
                 <!-- End of Modal Window  -->
             </table>
-            <p class="slds-m-vertical_medium content">
-                Total records: <b>{totalrecords} </b> Page <b>{currentpage}</b> of
-                <b> {totalpages}</b>
-            </p>
+            
             <template if:true={wrappers.data}>
                 <lightning-layout>
-                    <lightning-layout-item>
+                   <c-pagination page-number={pageNumber} page-size={wrappers.data.pageSize}
+                        total-item-count={wrappers.data.totalItemCount} onprevious={handlePreviousPage}
+                        onnext={handleNextPage}></c-pagination>
+                    <!---   <lightning-layout-item>
                         <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
                             disabled={showFirstButton}></lightning-button>
                     </lightning-layout-item>
@@ -134,7 +134,8 @@
                     <lightning-layout-item>
                         <lightning-button label="Last" icon-name="utility:chevronright" icon-position="right"
                             onclick={handleLast} disabled={showLastButton}></lightning-button>
-                    </lightning-layout-item>
+                    </lightning-layout-item>-->
+
                 </lightning-layout>
             </template>
         </lightning-layout-item>

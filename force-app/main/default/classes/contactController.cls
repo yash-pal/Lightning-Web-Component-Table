@@ -6,7 +6,7 @@ public with sharing class contactController {
       List<wrappController> wrapperList = new List<wrappController>();
       String key = '%' + searchKey + '%';
       //system.debug('contacts'+contacts);
-      for(contact con : [SELECT Id,Name,Email,UpdateField__c,LastModifiedDate,(SELECT ContactId,Contact.Name,Field,NewValue,OldValue FROM Histories  Where Field = 'UpdateField__c' ORDER BY CreatedDate DESC LIMIT 1) FROM contact WHERE Name LIKE :key limit 10])
+      for(contact con : [SELECT Id,Name,Email,UpdateField__c,LastModifiedDate,(SELECT ContactId,Contact.Name,Field,NewValue,OldValue FROM Histories  Where Field = 'UpdateField__c' ORDER BY CreatedDate DESC LIMIT 1) FROM contact WHERE Name LIKE :key limit 10 ])
       {
         wrappController obj = new wrappController(true,con);
         wrapperList.add(obj);
@@ -14,17 +14,6 @@ public with sharing class contactController {
       }
         return wrapperList;
     }
-
-    
-  /* @AuraEnabled(cacheable=true)
-    public static List<Contact> getContact(String searchKey){
-      String key = '%' + searchKey + '%';
-      List<contact> contacts = [SELECT Id,Name,Email,UpdateField__c,LastModifiedDate,(SELECT ContactId,Contact.Name,Field,NewValue,OldValue FROM Histories  Where Field = 'UpdateField__c' ORDER BY CreatedDate DESC LIMIT 1) FROM contact WHERE Name LIKE :key limit 10];
-      system.debug('contacts'+contacts);
-        return contacts;
-      
-
-    }*/
 
     //  Save the Id and Text from the Modal window in a Custom Object in Org 
 
@@ -60,28 +49,17 @@ public with sharing class contactController {
     return wrapperAccept;
     }
 
-  // Count Number of Records 
-
-    @AuraEnabled
-    public static Integer getCount(String searchString) {  
-     String query = 'select count() from Contact ';  
-     if (searchString != null && searchString != '') {  
-       query += ' where name like \'%' + searchString + '%\' ';  
-     }  
-     return Database.countQuery(query);  
-   } 
-
-  
-    @AuraEnabled(cacheable = true)  
-     public static List<Contact> getContactList(Integer pagenumber, Integer numberOfRecords, Integer pageSize, String searchString) {  
-     String searchKey = '%' + searchString + '%';  
-     String query = 'select Id,Name from contact ';  
-     if (searchString != null && searchString != '') {  
-       query += ' where name like \'%' + searchString + '%\' ';  
-     }  
-     query += ' limit ' + pageSize + ' offset ' + (pageSize * (pagenumber - 1)); 
-     List<contact> cons =  Database.query(query);
-     return cons;
-   }  
+    @AuraEnabled(cacheable=true)
+    public static PagedResult getContactList(Integer pageNumber)
+    {
+     Integer pageSize = 10;
+     Integer offset = (pageNumber -1) * pageSize;
+     PagedResult result = new PagedResult();
+     result.pageSize = pageSize;
+     result.pageNumber = pageNumber;
+     result.totalItemCount = Database.countQuery('Select count() from contact');
+     result.records = Database.query('Select Id,Name,Email,UpdateField__c,LastModifiedDate from contact' + 'LIMIT :pageSize OFFSET: offset');
+     return result;
+   }
 
 }

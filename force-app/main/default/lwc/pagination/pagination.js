@@ -1,65 +1,46 @@
-import { LightningElement, track, api } from 'lwc';  
- import getAccountsList from '@salesforce/apex/ManageController.getAccountsList';  
- import getAccountsCount from '@salesforce/apex/ManageController.getAccountsCount';  
- export default class RecordList extends LightningElement {  
-   @track accounts;  
-   @track error;  
-   @api currentpage;  
-   @api pagesize;  
-   @track searchKey;  
-   totalpages;  
-   localCurrentPage = null;  
-   isSearchChangeExecuted = false;  
-   // not yet implemented  
-   pageSizeOptions =  
-     [  
-       { label: '5', value: 5 },  
-       { label: '10', value: 10 },  
-       { label: '25', value: 25 },  
-       { label: '50', value: 50 },  
-       { label: 'All', value: '' },  
-     ];  
-   handleKeyChange(event) {  
-     if (this.searchKey !== event.target.value) {  
-       this.isSearchChangeExecuted = false;  
-       this.searchKey = event.target.value;  
-       this.currentpage = 1;  
-     }  
-   }  
-   renderedCallback() {  
-     // This line added to avoid duplicate/multiple executions of this code.  
-     if (this.isSearchChangeExecuted && (this.localCurrentPage === this.currentpage)) {  
-       return;  
-     }  
-     this.isSearchChangeExecuted = true;  
-     this.localCurrentPage = this.currentpage;  
-     getAccountsCount({ searchString: this.searchKey })  
-       .then(recordsCount => {  
-         this.totalrecords = recordsCount;  
-         if (recordsCount !== 0 && !isNaN(recordsCount)) {  
-           this.totalpages = Math.ceil(recordsCount / this.pagesize);  
-           getAccountsList({ pagenumber: this.currentpage, numberOfRecords: recordsCount, pageSize: this.pagesize, searchString: this.searchKey })  
-             .then(accountList => {  
-               this.accounts = accountList;  
-               this.error = undefined;  
-             })  
-             .catch(error => {  
-               this.error = error;  
-               this.accounts = undefined;  
-             });  
-         } else {  
-           this.accounts = [];  
-           this.totalpages = 1;  
-           this.totalrecords = 0;  
-         }  
-         const event = new CustomEvent('recordsload', {  
-           detail: recordsCount  
-         });  
-         this.dispatchEvent(event);  
-       })  
-       .catch(error => {  
-         this.error = error;  
-         this.totalrecords = undefined;  
-       });  
-   }  
- }
+import { LightningElement, api} from "lwc";
+export default class Paginator extends LightningElement {
+
+  /** The current page number. */
+
+  @api pageNumber;
+  /** The number of items on a page. */
+   @api pageSize;
+  /** The total number of items in the list. */ 
+  @api totalItemCount ;
+
+  handlePrevious() {
+    this.dispatchEvent(new CustomEvent("previous"));
+  }
+  handleNext() {
+    this.dispatchEvent(new CustomEvent("next"));
+  }
+  get currentPageNumber() {
+    /*eslint-disable no-console */
+   console.log(this.totalItemCount);
+
+    return this.totalItemCount === 0 ? 0 : this.pageNumber;
+
+  }
+  get isFirstPage() {
+    return this.pageNumber === 1;
+  }
+  get isLastPage() {
+    return this.pageNumber >= this.totalPages;
+  }
+  get totalPages() {
+    return Math.ceil(this.totalItemCount / this.pageSize);
+  }
+  get showLastButton() {
+    if (Math.ceil(this.totalrecords / this.pagesize) === this.currentpage) {
+      return true;
+    }
+    return false;
+  }
+  get showFirstButton() {
+    if (this.currentpage === 1) {
+      return true;
+    }
+    return false;
+  }
+}
