@@ -11,6 +11,9 @@ public with sharing class wrappController {
          selected = true;   
          this.selected = selected;
         }
+        else{
+            System.debug('Field Not Updated');
+        }
     }
 
 }

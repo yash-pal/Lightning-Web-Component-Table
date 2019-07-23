@@ -15,6 +15,22 @@ public with sharing class contactController {
         return wrapperList;
     }
 
+
+    // Class for Pagination
+    @AuraEnabled(cacheable=true)
+    public static PagedResult getContactList(Integer pageNumber)
+    {
+     Integer pageSize = 10;
+     Integer offset = (pageNumber -1) * pageSize;
+     PagedResult result = new PagedResult();
+     result.pageSize = pageSize;
+     result.pageNumber = pageNumber;
+     result.totalItemCount = Database.countQuery('Select count() from contact');
+     System.debug('count query' + result.totalItemCount);
+     result.records = Database.query('Select Id,Name,Email,UpdateField__c,LastModifiedDate from contact' + 'LIMIT :pageSize OFFSET: offset');
+     return result;
+   }
+
     //  Save the Id and Text from the Modal window in a Custom Object in Org 
 
     @AuraEnabled 
@@ -44,22 +60,11 @@ public with sharing class contactController {
       // Check the Id when it matches the id of the contact on click of  Button 
          con.UpdateField__c = 'Approve';
      update con;
-    wrappController obj = new wrappController(false,con);
+    wrappController obj = new wrappController(false,con);  
     wrapperAccept.add(obj);
     return wrapperAccept;
     }
 
-    @AuraEnabled(cacheable=true)
-    public static PagedResult getContactList(Integer pageNumber)
-    {
-     Integer pageSize = 10;
-     Integer offset = (pageNumber -1) * pageSize;
-     PagedResult result = new PagedResult();
-     result.pageSize = pageSize;
-     result.pageNumber = pageNumber;
-     result.totalItemCount = Database.countQuery('Select count() from contact');
-     result.records = Database.query('Select Id,Name,Email,UpdateField__c,LastModifiedDate from contact' + 'LIMIT :pageSize OFFSET: offset');
-     return result;
-   }
+    
 
 }
