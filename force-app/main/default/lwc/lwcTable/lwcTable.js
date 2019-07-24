@@ -17,6 +17,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api result;
   @api buttonValue = false;
   @api contacts = [];
+  @api resultValue;
   
  
 
@@ -46,20 +47,19 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   }
 
   saveMethod() {
+
     const result = this.template.querySelector(".inputText");
     this.result = result.value;
+    this.resultValue = this.result.replace(/\s/g,'').length;
 
+    if(this.resultValue!==0)
+    {
     /*eslint-disable no-console */
-    console.log("value of input " + this.result);
-
-    /*eslint-disable no-console */
-    console.log("this.recordId " + this.recordId);
+    console.log("this.recordId " + this.resultValue);
+   
     saveNote({ contactId: this.recordId, inputText: this.result })
       .then(() => {
-        if (this.result != null) {
-          this.buttonValue = false;
-        }
-
+        
         const evt = new ShowToastEvent({
           title: "Record Updated",
           variant: "Success",
@@ -84,6 +84,16 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
       this.showSpinner = true;
       location.reload(true);
     }, 3000);
+  }
+  else{
+    this.dispatchEvent(
+      new ShowToastEvent({
+        title: "Error creating record",
+        message: 'Field should not be empty',
+        variant: "error"
+      })
+    );
+  }
   }
 
   approvalMethod(event) {
@@ -143,6 +153,7 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   changeValue() {
     const result = this.template.querySelector(".inputText");
     this.result = result.value;
+    
     if (this.result != null) {
       this.buttonValue = false;
     }
