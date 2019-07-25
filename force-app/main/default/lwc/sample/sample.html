@@ -3,10 +3,10 @@
         <div class="slds-m-around_medium">
                   <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search"
                       value={searchKey}></lightning-input>
-            <template if:true={contact.data}>
-                <lightning-datatable key-field="id" data={contact.data} columns={columns} onsave={handleSave} draft-values={draftvalues} onrowaction={handleRowAction}></lightning-datatable>
+            <template if:true={wrappers.data}>
+                <lightning-datatable key-field="id" data={wrappers.data} columns={columns} onsave={handleSave} draft-values={draftvalues} onrowaction={handleRowAction}></lightning-datatable>
             </template>
-            <template if:true={contact.error}>
+            <template if:true={wrappers.error}>
             </template>
             <!-- Start of modal window-->
             <template if:true={bShowModal}>

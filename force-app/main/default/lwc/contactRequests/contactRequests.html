@@ -1,0 +1,11 @@
+<template>
+        <lightning-card title="Leave Requests" icon-name="action:submit_for_approval">
+                <div class="slds-m-around_medium">
+                        <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search"
+                            value={searchKey}></lightning-input>
+                  <template if:true={wrappers.data}>
+                      <lightning-datatable key-field="id" data={wrappers.data} columns={columns} onsave={handleSave} draft-values={draftvalues} onrowaction={handleRowAction}></lightning-datatable>
+                  </template>
+                  </div>
+        </lightning-card>
+</template>

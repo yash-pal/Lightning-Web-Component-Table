@@ -11,6 +11,12 @@
             ],
             "c/sample": [
                 "sample/sample.js"
+            ],
+            "c/ContactRequests": [
+                "ContactRequests/ContactRequests.js"
+            ],
+            "c/contactRequests": [
+                "contactRequests/contactRequests.js"
             ]
         }
     },
