@@ -5,7 +5,6 @@ public with sharing class contactController {
     public static List<wrappController> contactWrapper(String searchKey){
       List<wrappController> wrapperList = new List<wrappController>();
       String key = '%' + searchKey + '%';
-      //system.debug('contacts'+contacts);
       for(contact con : [SELECT Id,Name,Email,UpdateField__c,LastModifiedDate,(SELECT ContactId,Contact.Name,Field,NewValue,OldValue FROM Histories  Where Field = 'UpdateField__c' ORDER BY CreatedDate DESC LIMIT 1) FROM contact WHERE Name LIKE :key limit 10 ])
       {
         wrappController obj = new wrappController(true,con);

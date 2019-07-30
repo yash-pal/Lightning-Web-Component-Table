@@ -59,14 +59,20 @@
                             <template if:true={wrappers.data}>
                                 <th data-label="Action" data-scope="row">
                                     <div class="slds-truncate slds-text-align_center " title={wrapper.con.Id}>
-                                        <lightning-button variant="brand" data-key={wrapper.con.Id} data-id="toastModel"
-                                            label="Accept" value={wrapper.con.Id} onclick={approvalMethod}
-                                            class="slds-m-left_x-small" id={wrapper.con.Id} disabled={wrapper.selected}>
-                                        </lightning-button>
-                                        <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
-                                            value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small"
-                                            disabled={wrapper.selected}>
-                                        </lightning-button>
+                                            <lightning-button variant="brand" data-key={wrapper.con.Id}
+                                                data-id="toastModel" label="Accept" value={wrapper.con.Id}
+                                                onclick={approvalMethod} class="slds-m-left_x-small" id={wrapper.con.Id}
+                                                disabled={wrapper.selected}>
+                                            </lightning-button>
+                                            <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
+                                                value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small"
+                                                disabled={wrapper.selected}>
+                                            </lightning-button>
+                                    </div>
+                                </th>
+                                <th data-label="Status" data-scope="row">
+                                    <div class="slds-truncate slds-text-align_center ">
+                                        <lightning-input-name label="Status" type="Approve" value={statusValue}></lightning-input-name>
                                     </div>
                                 </th>
                             </template>
@@ -96,13 +102,15 @@
 
                                 <!-- Text Area-->
                                 <lightning-textarea class="inputText slds-textarea" placeholder="Reason"
-                                    value={databinding} message-when-value-missing="Enter a reason"  onchange={changeValue} required >
+                                    value={databinding} message-when-value-missing="Enter a reason"
+                                    onchange={changeValue} required>
                                 </lightning-textarea>
                                 <!-- modal footer start-->
                                 <footer class="slds-modal__footer">
                                     <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
                                     </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <lightning-button label="Save" variant="brand" onclick={saveMethod} disabled={buttonValue}>
+                                    <lightning-button label="Save" variant="brand" onclick={saveMethod}
+                                        disabled={buttonValue}>
                                     </lightning-button>
                                 </footer>
                             </div>
@@ -112,30 +120,12 @@
                 </template>
                 <!-- End of Modal Window  -->
             </table>
-            
+
             <template if:true={wrappers.data}>
                 <lightning-layout>
-                   <c-pagination page-number={pageNumber} page-size={wrappers.data.pageSize}
+                    <c-pagination page-number={pageNumber} page-size={wrappers.data.pageSize}
                         total-item-count={wrappers.data.totalItemCount} onprevious={handlePreviousPage}
                         onnext={handleNextPage}></c-pagination>
-                    <!---   <lightning-layout-item>
-                        <lightning-button label="First" icon-name="utility:chevronleft" onclick={handleFirst}
-                            disabled={showFirstButton}></lightning-button>
-                    </lightning-layout-item>
-                    <lightning-layout-item>
-                        <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={handlePrevious}
-                            disabled={showFirstButton}></lightning-button>
-                    </lightning-layout-item>
-                    <lightning-layout-item flexibility="grow"></lightning-layout-item>
-                    <lightning-layout-item>
-                        <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
-                            onclick={handleNext} disabled={showLastButton}></lightning-button>
-                    </lightning-layout-item>
-                    <lightning-layout-item>
-                        <lightning-button label="Last" icon-name="utility:chevronright" icon-position="right"
-                            onclick={handleLast} disabled={showLastButton}></lightning-button>
-                    </lightning-layout-item>-->
-
                 </lightning-layout>
             </template>
         </lightning-layout-item>

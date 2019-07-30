@@ -163,6 +163,10 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
 
   }
 
+  changeStatus(){
+    
+  }
+
   handlePreviousPage() {
     this.pageNumber = this.pageNumber - 1;
   }
