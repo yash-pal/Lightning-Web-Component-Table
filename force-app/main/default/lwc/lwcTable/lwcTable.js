@@ -4,7 +4,6 @@ import saveNote from "@salesforce/apex/contactController.saveNote";
 import Accept from "@salesforce/apex/contactController.Accept";
 import getContactList from "@salesforce/apex/contactController.getContactList";
 import { NavigationMixin } from "lightning/navigation";
-import { refreshApex } from "@salesforce/apex";
 import contactWrapper from "@salesforce/apex/contactController.contactWrapper";
 
 export default class LwcAssignment extends NavigationMixin(LightningElement) {
@@ -18,8 +17,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api buttonValue = false;
   @api contacts = [];
   @api resultValue;
-  
- 
 
   @api showSpinner = false;
 
@@ -106,7 +103,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
           variant: "Success"
         });
         this.dispatchEvent(evnt);
-        return refreshApex(this.contacts);
       })
       .catch(error => {
         this.dispatchEvent(
@@ -161,10 +157,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
       this.buttonValue = true;
     }
 
-  }
-
-  changeStatus(){
-    
   }
 
   handlePreviousPage() {

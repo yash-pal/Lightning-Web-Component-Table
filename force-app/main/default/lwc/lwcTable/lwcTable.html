@@ -24,6 +24,9 @@
                         <th class="slds-text-align_center" data-scope="col" title="Action" align="center">
                             ACTION
                         </th>
+                        <th class="slds-text-align_center" data-scope="col" title="Status" align="center">
+                            STATUS
+                        </th>
                     </tr>
                 </thead>
 
@@ -59,20 +62,19 @@
                             <template if:true={wrappers.data}>
                                 <th data-label="Action" data-scope="row">
                                     <div class="slds-truncate slds-text-align_center " title={wrapper.con.Id}>
-                                            <lightning-button variant="brand" data-key={wrapper.con.Id}
-                                                data-id="toastModel" label="Accept" value={wrapper.con.Id}
-                                                onclick={approvalMethod} class="slds-m-left_x-small" id={wrapper.con.Id}
-                                                disabled={wrapper.selected}>
-                                            </lightning-button>
-                                            <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
-                                                value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small"
-                                                disabled={wrapper.selected}>
-                                            </lightning-button>
+                                        <lightning-button variant="brand" data-key={wrapper.con.Id} data-id="toastModel"
+                                            label="Accept" value={wrapper.con.Id} onclick={approvalMethod}
+                                            class="slds-m-left_x-small" id={wrapper.con.Id} disabled={wrapper.selected}>
+                                        </lightning-button>
+                                        <lightning-button variant="brand" data-key={wrapper.con.Id} label="Reject"
+                                            value={wrapper.con.Id} onclick={openModal} class="slds-m-left_x-small"
+                                            disabled={wrapper.selected}>
+                                        </lightning-button>
                                     </div>
                                 </th>
                                 <th data-label="Status" data-scope="row">
-                                    <div class="slds-truncate slds-text-align_center ">
-                                        <lightning-input-name label="Status" type="Approve" value={statusValue}></lightning-input-name>
+                                    <div class="slds-truncate slds-text-align_center" style="text-emphasis-color: green">
+                                      {wrapper.con.UpdateField__c}
                                     </div>
                                 </th>
                             </template>
