@@ -5,6 +5,7 @@ import Accept from "@salesforce/apex/contactController.Accept";
 import getContactList from "@salesforce/apex/contactController.getContactList";
 import { NavigationMixin } from "lightning/navigation";
 import contactWrapper from "@salesforce/apex/contactController.contactWrapper";
+import { refreshApex } from '@salesforce/apex';
 
 export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api error;
@@ -17,7 +18,6 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
   @api buttonValue = false;
   @api contacts = [];
   @api resultValue;
-
   @api showSpinner = false;
 
   @wire(contactWrapper, { searchKey: "$searchKey" })
@@ -63,7 +63,9 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
 
           mode: "dismissable"
         });
+        /*eslint-disable*/
         this.dispatchEvent(evt);
+        
         this.closeModal();
       })
       .catch(error => {
@@ -75,11 +77,12 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
           })
         );
       });
+      this.showSpinner = true;
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setTimeout(() => {
       this.ready = true;
-      this.showSpinner = true;
-      location.reload(true);
+      this.dispatchEvent(new CustomEvent('recordChange'));
+      return refreshApex(this.wrappers); 
     }, 3000);
   }
   else{
@@ -103,6 +106,8 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
           variant: "Success"
         });
         this.dispatchEvent(evnt);
+        
+       
       })
       .catch(error => {
         this.dispatchEvent(
@@ -113,12 +118,14 @@ export default class LwcAssignment extends NavigationMixin(LightningElement) {
           })
         );
       });
+      this.showSpinner = true;
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setTimeout(() => {
       this.ready = true;
-      this.showSpinner = true;
-      location.reload(true);
+      this.dispatchEvent(new CustomEvent('recordChange'));
+      return refreshApex(this.wrappers); 
     }, 3000);
+    
   }
 
   handleKeyChange(event) {
