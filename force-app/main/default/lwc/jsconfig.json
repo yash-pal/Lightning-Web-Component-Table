@@ -3,6 +3,12 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
+            "c/contactRequests": [
+                "contactRequests/contactRequests.js"
+            ],
+            "c/loginPage": [
+                "loginPage/loginPage.js"
+            ],
             "c/lwcTable": [
                 "lwcTable/lwcTable.js"
             ],
@@ -11,12 +17,6 @@
             ],
             "c/sample": [
                 "sample/sample.js"
-            ],
-            "c/ContactRequests": [
-                "ContactRequests/ContactRequests.js"
-            ],
-            "c/contactRequests": [
-                "contactRequests/contactRequests.js"
             ]
         }
     },

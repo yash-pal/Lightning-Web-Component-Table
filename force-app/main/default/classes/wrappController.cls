@@ -1,6 +1,6 @@
 public with sharing class wrappController {
     @AuraEnabled
-    public contact con{get;set;}
+    public contact con;
     @AuraEnabled
     public boolean selected = false;
 

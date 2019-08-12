@@ -1,5 +1,5 @@
 import { LightningElement, wire, track} from 'lwc';
-import getContacts from '@salesforce/apex/ManageController.getContacts';
+import contactWrapper from "@salesforce/apex/contactController.contactWrapper";
 import saveNote from '@salesforce/apex/contactController.saveNote';
 import { updateRecord } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
@@ -46,8 +46,8 @@ export default class DatatableUpdateExample extends LightningElement {
     variant = 'Success';
     
 
-    @wire(getContacts)
-    contact;
+    @wire(contactWrapper)
+    wrappers;
     /*@wire(saveNote)
     contact;*/
 
