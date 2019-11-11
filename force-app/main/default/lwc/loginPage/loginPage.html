@@ -1,30 +1,27 @@
 <template>
-    <div class="slds-align_absolute-center slds-p-top_xx-large" >
-    <lightning-card >
-        <template if:true={contacts.data}>
-        <div class="slds-m-around_medium" style="height:230px; width:500px">
-        
-            <div class="slds-p-bottom_small">
-            <lightning-input type="text" label="Username" ></lightning-input>n
-        </div>
-            <div class="slds-p-bottom_small">
-            <lightning-input type="text" label="Password" ></lightning-input>
-        </div>
-        <div class="slds-p-bottom_small " >   
-            <lightning-button variant="brand" label="Login" onclick={openlogin} ></lightning-button>&nbsp;&nbsp;&nbsp;
-            <lightning-button variant="brand" label="Sign Up"></lightning-button>
-        </div>
-            <div class="slds-p-bottom_small">
-            <lightning-input type="checkbox" checked label="Remember me"></lightning-input>
-        </div>
-        <div class="slds-modal_footer slds-p-bottom_small">
-                <lightning-button label="Forget Your Password?" variant="base" ></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <lightning-button label="Use Custom Domain" variant="base" ></lightning-button>
-        </div>
-
-        </div>
-    </template>
-    
-    </lightning-card>
-</div> 
+    <div class="slds-align_absolute-center slds-p-top_xx-large">
+        <lightning-card>
+            <div class="slds-m-around_medium" style="height:230px; width:500px">
+                <div class="slds-p-bottom_small">
+                    <lightning-input type="text" label="Username"></lightning-input>
+                </div>
+                <div class="slds-p-bottom_small">
+                    <lightning-input type="text" label="Password"></lightning-input>
+                </div>
+                <div class="slds-p-bottom_small ">
+                    <lightning-button variant="brand" label="Login" onclick={openlogin}></lightning-button>
+                    &nbsp;&nbsp;&nbsp;
+                    <lightning-button variant="brand" label="Sign Up" onclick={handleSignup}></lightning-button>
+                </div>
+                <div class="slds-p-bottom_small">
+                    <lightning-input type="checkbox" checked label="Remember me"></lightning-input>
+                </div>
+                <div class="slds-modal_footer slds-p-bottom_small">
+                    <lightning-button label="Forget Your Password?" variant="base"></lightning-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning-button label="Use Custom Domain" variant="base"></lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
 </template>

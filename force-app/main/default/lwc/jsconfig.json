@@ -12,11 +12,17 @@
             "c/lwcTable": [
                 "lwcTable/lwcTable.js"
             ],
+            "c/mainPage": [
+                "mainPage/mainPage.js"
+            ],
             "c/pagination": [
                 "pagination/pagination.js"
             ],
             "c/sample": [
                 "sample/sample.js"
+            ],
+            "c/signupPage": [
+                "signupPage/signupPage.js"
             ]
         }
     },

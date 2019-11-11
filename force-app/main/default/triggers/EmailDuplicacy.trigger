@@ -1,5 +1,5 @@
 trigger EmailDuplicacy on Lead (before insert,before update) {
-	
+    
     Map<String,Lead> emailMap = new Map<String,Lead>();
    for(Lead leads: Trigger.new){
        if((leads.Email != null) && (Trigger.isInsert || (leads.Email != Trigger.oldMap.get(leads.Id).Email))){

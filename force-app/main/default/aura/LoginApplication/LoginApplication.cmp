@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <div class="slds-align_absolute-center slds-p-top_xx-large" >
+        <lightning:card>
+            <div class="slds-align_absolute-center slds-p-top_xx-large" >
+                <div class="slds-p-horizontal_xx-large">
+                    <img src="{!$Resource.Salesforce}" class="slds-align_absolute-center"/>
+                    <c:loginPage></c:loginPage>
+                </div>
+            </div>
+        </lightning:card>
+    </div>
+</aura:component>

@@ -1,0 +1,22 @@
+<apex:page controller="LoginController">
+    <apex:form >
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock >
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value=" User Name" for="resources"></apex:outputLabel>
+                    <apex:inputField value="{!reg.Username__c}" id="resource"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Passcode" for="passcode"></apex:outputLabel>
+                    <apex:inputSecret value="{!reg.Password__c}" id="passcode"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!NoMatch}">Invalid Resources or Passcode</apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Login" action="{!signin}"/>
+                <apex:commandButton action="{!doCancel}" value="cancel"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

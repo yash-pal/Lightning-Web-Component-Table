@@ -1,0 +1,19 @@
+<aura:component controller="OpportunityController" implements="flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" >
+    <aura:attribute name="mycolumns1" type="String"/>
+    <aura:attribute name="recordId" type="String" />
+    <div>
+        Id : {!v.recordId} <br/>
+    </div>
+    <div>
+        <ui:inputCheckbox label="Show all Opportunities" click="{!c.showOpp}"/>
+    </div>
+    <aura:attribute type="Opportunity[]" name="acctList"/>
+    
+    <aura:attribute name="mycolumns" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}"/>
+    <lightning:datatable data="{!v.acctList }"
+                         columns="{!v.mycolumns }"
+                         keyField="id"
+                         hideCheckboxColumn="true"/>
+</aura:component>
